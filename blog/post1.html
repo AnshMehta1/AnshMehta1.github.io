@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 1: Starting My Journey</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 1: Start the compilation of Test Open Maps of Hashmaps package</h1>
+    <p>May 23, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the first blog of my GSoC'25 journey. I will be starting the <b>12 weeks</b> coding period of my GSoC journey with Compilation of <b>Stdlib</b> Codebase.
+       In the Pre-GSoC period, I started the code compilation of stdlib and have compiled <b>linalg</b> package which is set up at CI in the current branch. After that, in Pre-GSoC period, 
+       I started to work on package <b>hashmaps</b>. Before starting my coding period, I was able to compile <b>all the src</b> files of package hashmaps by creating workarounds and opening issues
+       for errors that I encountered during the compilation.  
+    </p>
+
+    <p>
+        In the first week of coding period, I started to compile <b>tests</b> of package hashmaps. There are 3 test files for testing package hashmaps which are :-
+        <ul>
+            <li>Test Open Maps</li>
+            <li>Test Chaining Maps</li>
+            <li>Test Maps</li>
+        </ul>
+    </p>
+
+    <p>
+        I started testing part with <b>Test Open Maps</b>. Package Hashmaps uses <b>Submodule</b> in its implementation which basically extends a module by providing implementations to subroutines
+        and interfaces that are defined in parent module. But LFortran lacks <b>ASR design</b> for Submodule and currently, it treats submodule as a <b>separate module</b>
+        and implements it accordingly. This creates an error as for a <b>subroutine definition</b> in a module and <b>its implementation</b> in submodule, two separate <b>ASR::Function_t*</b>
+        nodes gets created which may lead to code generation error as in <a href="https://github.com/lfortran/lfortran/issues/7270">Issue #7270</a>. 
+        So, to handle this error and proceed with compilation, I created a workaround as <a href="https://github.com/czgdp1807/stdlib/commit/c5db1d2865c49853e507dfc5a2012e68112e872a">Submodule Workaround</a>
+        whose logic was to get rid of submodule by <b>converting it to a module</b> and directly using its subroutines in test open maps where needed.
+    </p>
+
+    <p>
+        After this workaround, compilation process became easy. For the errors that I was getting, I created <b>Minimal Reproducible Examples (MREs)</b> for them and then 
+        created <b>workaround</b> for then. While creating workarounds, I ensured two things , (1) My workarounds are <b>working with GFortran</b> and <b>all tests passes using GFortran</b>
+        (2) I am able to <b>proceed to next error using LFortran</b> after creating a workaround. For all most all the cases, I was able to create successful workarounds (passing above 2 conditions)
+        and was able to proceed in code compilation. Following is the list of issues (MREs) that I created in this week :- 
+        <ul>
+            <li><a href="https://github.com/lfortran/lfortran/issues/7330">Issue #7330</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/7334">Issue #7334</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/7357">Issue #7357</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/7371">Issue #7371</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/7387">Issue #7387</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/7393">Issue #7393</a></li>
+        </ul>
+
+    </p>
+    <p>The Link to workarounds created in this week can be seen in the latest hashmaps branch that is <a href="https://github.com/czgdp1807/stdlib/commits/n-lf-hashmaps-3/">n-lf-hashmaps-3</a>.</p>
+    <p>There were some errors for which I was <b>not able to create MREs</b> and was <b>not able to workaround</b> them successfully. These error were related to some sort of <b>Deserialization error</b> as per the stacktrace that
+        I was getting. So, for temporary purpose and to proceed with compilation, I <b>commented out</b> the code lines that were causing the Deserialization error.
+        The link to commit that commented out these lines is <a href="https://github.com/czgdp1807/stdlib/commit/c9a27d1abab071ae767315844f130bdddcb8d484">Commit for Deserialization</a>
+    </p>
+    <p>In the next week, Firstly, I am planning to <b>work on and fix</b> <a href="https://github.com/lfortran/lfortran/issues/7371">Issue #7371</a> because creating a workaround for this issue 
+       is not possible as it leads to a series of other errors and overall hampers the codeflow. Next, I will be working to <b>create an MRE for above discussed Deserialization</b> error and will try to workaround it accordingly
+       or fix it. Finally, I will be <b>wrapping up Test Open Maps by</b> working around any remaining errors or fixing them.</p>
+    <p>Apart from this, the next major thing that I am planning to do is to <b>work on submodule</b> thing. I am planning to <b>create MREs for various workarounds created in different-different packages</b>
+        of Stdlib codebase. This will give me a concrete idea about functionalities of submodule and will create a <b>basic ASR design</b> for it. Will further work to improvise it as per reviews and discussions on zulip.
+    </p>
+    <p>Then, if time permits, then, I will start working on <b>other test files of package hashmaps</b> and try to compile as much as I can.</p>
+    <p>Overall, I enjoyed the work that I did in the first week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+       LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+       with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
