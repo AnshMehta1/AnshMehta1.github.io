@@ -50,9 +50,8 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Content styling */
 .content {
-  color: #4e4b5c; /* Muted Lavender */
+  color: #4e4b5c; 
   margin: 0 auto;
   padding: 0 1em;
 }
@@ -63,13 +62,11 @@ a:hover {
   line-height: 1.8;
 }
 
-/* List bullets */
 .content ul {
   padding-left: 1.5em;
   list-style-type: disc;
 }
 
-/* Responsive layout */
 @media (max-width: 768px) {
   main {
     padding: 1.5em 1em;
@@ -83,4 +80,23 @@ a:hover {
   .content ul {
     font-size: 1.1em;
   }
+}
+
+footer {
+  background-color: #1e2a38;
+  color: #ffffff;
+  padding: 1.5em 1em;
+  text-align: center;
+}
+
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 0.5em;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  text-decoration: underline;
+  color: #aad8ff; /* subtle contrast on hover */
 }
