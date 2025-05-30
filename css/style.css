@@ -1,53 +1,86 @@
+/* Base styles */
 body {
-    font-family: sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background: #f4f4f4;
-    color: #333;
-  }
-  
-  header, footer {
-    background: #333;
-    color: #fff;
-    padding: 1em;
-    text-align: center;
-  }
-  
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fc;
+  color: #2e2e3a;
+}
+
+/* Header and footer */
+header, footer {
+  background-color: #1e2a38; /* Midnight Blue */
+  color: #ffffff;
+  padding: 1.5em 1em;
+  text-align: center;
+}
+
+h1 {
+  color: #ffffff;
+  margin: 0;
+  font-size: 2.5em;
+}
+
+/* Main content */
+main {
+  padding: 2em;
+  max-width: 900px;
+  margin: 2em auto;
+  background-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(30, 42, 56, 0.1);
+  border-radius: 10px;
+}
+
+/* Typography */
+h2 {
+  color: #1e2a38;
+  margin-top: 1.5em;
+  font-size: 1.8em;
+}
+
+a {
+  color: #00aaff; /* Sky Blue */
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #008ecc;
+  text-decoration: underline;
+}
+
+/* Content styling */
+.content {
+  color: #4e4b5c; /* Muted Lavender */
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+.content p,
+.content ul {
+  font-size: 1.25em;
+  line-height: 1.8;
+}
+
+/* List bullets */
+.content ul {
+  padding-left: 1.5em;
+  list-style-type: disc;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
   main {
-    padding: 1em 2em;
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
+    padding: 1.5em 1em;
   }
 
-  h1 {
-    color : #fff
-  }
-  
-  h2 {
-    color: #222;
-  }
-  
-  a {
-    color: #007acc;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-
-  .content p {
-    font-size: 22px;
-  }
-
-  .content ul {
-    font-size: 22px;
-  }
-  
   .content {
-    color: #4E4852;
-    margin-left: 100px;
-    margin-right: 100px;
+    padding: 0;
   }
+
+  .content p,
+  .content ul {
+    font-size: 1.1em;
+  }
+}
