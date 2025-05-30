@@ -13,15 +13,15 @@
   </header>
 
   <section class="content">
-    <p>Hi everyone, welcome to the second blog of my GSoC'25 journey. In this week, I continued my work on test open maps of package hashmaps. The first thing which I did was
-       to fix <a href="https://github.com/lfortran/lfortran/issues/7371">Issues #7371</a>. One can find the the Merged Pull Request for fixing this issue <a href="https://github.com/lfortran/lfortran/pull/7426">here</a>.
-       This acted as a milestone as merging this PR led to significant progress in compilation.
+    <p>Hi everyone, welcome to the second blog of my GSoC'25 journey. In this week, I <b>continued my work on test open maps</b> of package hashmaps. The first thing which I did was
+       to <b>fix</b> <a href="https://github.com/lfortran/lfortran/issues/7371">Issues #7371</a>. One can find the the <b>Merged Pull Request</b> for fixing this issue <a href="https://github.com/lfortran/lfortran/pull/7426">here</a>.
+       This acted as a milestone as merging this PR led to <b>significant progress</b> in compilation.
     </p>
 
-    <p>Then onwards, I continued the code compilation process of creating MREs. After creating few MREs and suitable workarounds for them, I was only left with a few code generation
-        errors. These were mostly related to polymorphic variables and thier usage in subroutine.</p>
+    <p>Then onwards, I continued the code compilation process of creating MREs. After creating few MREs and suitable workarounds for them, I was only left with a <b>few code generation
+      errors</b>. These were mostly related to <b>polymorphic variables</b> and thier usage in subroutine.</p>
     
-    <p>Following is the list of MREs created this week :-
+    <p>Following is the list of <b>MREs</b> created this week :-
 
         <ul>
             <li><a href="https://github.com/lfortran/lfortran/issues/7438">Issue #7438</a></li>
@@ -31,7 +31,7 @@
         </ul>
     </p>
 
-    <p>Following is the list of Merged Pull Requests for this week :-
+    <p>Following is the list of <b>Merged Pull Requests</b> for this week :-
        
        <ul>
           <li><a href="https://github.com/lfortran/lfortran/pull/7426">PR #7426</a></li>
@@ -39,20 +39,20 @@
        </ul>
     </p>
 
-    <p>The workarounds created in this week can be tracked through the latest hashmaps branch that is <a href="https://github.com/czgdp1807/stdlib/commits/n-lf-hashmaps-3/">n-lf-hashmaps-3</a>.</p>
+    <p>The <b>workarounds</b> created in this week can be tracked through the latest hashmaps branch that is <a href="https://github.com/czgdp1807/stdlib/commits/n-lf-hashmaps-3/">n-lf-hashmaps-3</a>.</p>
 
-    <p>For the remaining code generation errors, it was impossible to work them around and so, I decided to fix these errors one by one. I started with <a href="https://github.com/lfortran/lfortran/issues/7441">Issue #7441</a> and succeeded in fixing one of its MRE.
+    <p>For the remaining code generation errors, it was impossible to work them around and so, I decided to <b>fix these errors one by one</b>. I started with <a href="https://github.com/lfortran/lfortran/issues/7441">Issue #7441</a> and succeeded in fixing one of its MRE.
        Merged Pull Request for the same can be found <a href="https://github.com/lfortran/lfortran/pull/7452">here</a></p>
     
-    <p>Meanwhile, I found a way to create a MRE for the Deserialization Error for which, earlier, I had commented out the code lines. Link to MRE is <a href="https://github.com/lfortran/lfortran/issues/7478">Issue 7478</a>. Next, I created workarounds for all the deserialization error that I was getting. The link 
+    <p>Meanwhile, I found a way to create a <b>MRE for the Deserialization Error</b> for which, earlier, I had commented out the code lines. Link to MRE is <a href="https://github.com/lfortran/lfortran/issues/7478">Issue 7478</a>. Next, I <b>created workarounds for all the deserialization errors</b> that I was getting. The link 
        to workarounds regarding deserialization error is <a href="https://github.com/czgdp1807/stdlib/commit/380933787a75b5184347df3654fe5f215b7ce253">here</a>. 
        </p>
-    <p>Although, I planned to compile test open map by the end of week but still the test open maps has not been compiled fully. This was because of current refactoring going in LFortran to
-       remove Class and ClassType that led to a series of new erros which delayed my progress as I had to handle them first. 
+    <p>Although, I planned to compile test open map by the end of week but still the test open maps has not been compiled fully. This was because of <b>current refactoring</b> going in LFortran to
+       <b>remove Class and ClassType</b> that led to a series of new erros which delayed my progress as I had to handle them first. 
     </p>
 
-    <p> For my next week, I am planning to complete the compilation of test open maps of package hashmaps. As of now, I am only getting some code generation errors. I might get some more errors as the compilation process goes on but I feel that there a high chances of me completing compilation
-        of test open maps by the end of next week. Also, if time time permits, then I will start the compilation of other 2 test files of package hashmaps. I guess, the errors that I will be getting in new test files will be almost similar to the errors encountered in test open maps.
+    <p> For my next week, I am planning to <b>complete the compilation of test open maps</b> of package hashmaps. As of now, I am only getting some code generation errors. I might get some more errors as the compilation process goes on but I feel that there a high chances of me completing compilation
+        of test open maps by the end of next week. Also, if time time permits, then I will <b>start the compilation of other 2 test files</b> of package hashmaps. I guess, the errors that I will be getting in new test files will be almost <b>similar to the errors encountered</b> in test open maps.
         Thus, I just need to refer my workarounds for test opens maps and use them in a similar fashion for other test files. Thus, once the test open maps gets compiled, then the remaining stuffs in package hashmaps will not be that difficult to handle and won't take much time.
     </p>
 
