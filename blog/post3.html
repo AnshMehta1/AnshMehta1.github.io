@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 3: Test Open Maps</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 3: Successful compilation of Test Open Maps</h1>
+    <p>June 6, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the third blog of my GSoC'25 journey. A major update of my work from the third week is <b>successful compilation of Test Open Maps</b> of package hashmaps. Now, Test Open Maps is compiling to <b>100%</b> without any Semantic Error, ASR Verify Pass Error, Internal Compilation Error or CodeGeneration Error.
+       But still the complete test file is not passing the test due to some <b>segmentation fault</b> encountered during the runtime and some <b>error stop failures</b> on conditional checks.
+    </p>
+
+    <p>I started the week by <b>fixing</b> <a href="https://github.com/lfortran/lfortran/issues/7438">Issue #7438</a> as the error was related to <b>basic Assignment operation</b> which is used multiple times in the package hashmaps. The Link to the <b>Merged Pull Request</b> is <a href="https://github.com/lfortran/lfortran/pull/7531">here</a>. After this, 
+       I <b>improved the workaround of deserialization</b> error and <b>created the workarounds</b> for various other issues for whom fixing the MREs was a bit tricky task.</p>
+
+       <p><b>Appropriate Workarounds created</b> for various issues are :- 
+            <ul>
+                <li><a href="https://github.com/czgdp1807/stdlib/commit/572d8eb4581793be09c062b6e82926d826413d49">Improved Workaround for Deserialization Error</a></li>
+                <li><a href="https://github.com/czgdp1807/stdlib/commit/d544cc68a55ddeb26865b5d65db4ad681a31ee93">Workaround for Move Alloc Error</a></li>
+                <li><a href="https://github.com/czgdp1807/stdlib/commit/d83c8a2f6d42aca2690ff7ad4fad5601bf0752f4">Workaround for Polymorphic Argument Error</a></li>
+                <li><a href="https://github.com/czgdp1807/stdlib/commit/5f1160d2a4a3c4742ef94ecb228bea82f41d4e76">Workaround for Linker Error</a></li>
+            </ul>
+       </p>
+
+       <p>With these workarounds and some other fixes, Test Open Maps is now working compiling to 100% using <b>LFortran</b>. Also, with these workaround, Test Open Map works well and passes all the tests using <b>GFortran</b>. This ensures that <b>all the workarounds are correct</b> and working well which was not the case before as some workarounds were causing test to fail via GFortran.</p>
+
+        <p>Following is the list of <b>Merged Pull Requests</b> for this week that helped in compilation of Test Open Maps :-
+        
+            <ul>
+                <li><a href="https://github.com/lfortran/lfortran/pull/7531">PR #7531</a></li>
+                <li><a href="https://github.com/lfortran/lfortran/pull/7558">PR #7558</a></li>
+                <li><a href="https://github.com/lfortran/lfortran/pull/7588">PR #7588</a></li>
+            </ul>
+        </p>
+
+    <p>After the successful compilation of Test Open Maps, the next step is to ensure that the <b>test works well and executes correctly and passes the test</b> without any error stop failure or segmentation fault failures. I encountered some segmentation fault and created MREs and workarounds for them.</p>
+    <p>Following is the <b>list of MREs regarding segmentation fault</b> created this week :- 
+        <ul>
+            <li><a href="https://github.com/lfortran/lfortran/issues/7596">Issue #7596</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/7603">Issue #7603</a></li>
+        </ul>
+    </p>
+    
+    <p>I succeeded in creating workarounds for them. Following is the <b>list of workarounds related to segmentation fault</b> :- 
+        <ul>
+            <li><a href="https://github.com/czgdp1807/stdlib/commit/e0cb99dd8ee04e3843e35f30cb555e2d55c6c681">Workaround for issue #7596</a></li>
+            <li><a href="https://github.com/czgdp1807/stdlib/commit/2ba92e71130a26fee5a1bd703b0a6df908f4bf10">Workaround for issue #7603</a></li>
+        </ul>
+    </p>
+
+    <p>Still, I <b>haven't got rid of segmentation fault completely</b> and for my next week, my aim would be to <b>identify all the segmentation fault failures and other error stop failures</b>, <b>create workarounds for them or fix them</b> and make test open maps <b>execute correctly</b>.
+       After doing this, I will be creating a <b>clean branch</b> to collect all the required workaround and add these workarounds to our <b>base branch</b> to <b>setup Test Open Maps at CI</b>. I am quite optimistic that I will set up CI for test open maps in the following week and if time permits,
+       I will also start my work on <b>other Test files and Example files</b> of package hashmaps.
+    </p>
+    
+    <p>Overall, I worked for <b>28 hours</b> this week and enjoyed the work that I did in the third week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
