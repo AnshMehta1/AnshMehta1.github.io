@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 4: Test Open Maps</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 4: Completion of compilation of Test Open Maps</h1>
+    <p>June 13, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the fourth blog of my GSoC'25 journey. A significant achievement in my fourth week's work is the <b>Completion of compilation of the Test Open Maps</b> from the hashmaps package. Now, Test Open Maps file is executing perfectly and passing all the tests, obviously with workarounds, using LFortran. It has been
+       <b>set up on CI</b> to prevent any sort of regression. <b>Merged Pull Request</b> responsible for setting it up on CI is <a href="https://github.com/lfortran/lfortran/pull/7672">here</a>.
+    </p>
+
+    <p>I started the week by working on <b>segmentation faults</b> that I was getting while running test open maps. This was a trickier part as one needs to go through the entire codeflow
+       to get the exact cause for these segfaults. Through thorough debugging, I was able to <b>create MREs and workarounds</b> for these segfaults.
+    </p>
+
+    <p>Following is the List of <b>MREs</b> created this week to that were responsible for segfaults :- 
+       <ul>
+          <li><a href="https://github.com/lfortran/lfortran/issues/7622#issuecomment-2953039963">Issue #7622 MRE-1 </a></li>
+          <li><a href="https://github.com/lfortran/lfortran/issues/7622#issuecomment-2958303129">Issue #7622 MRE-2</a></li>
+       </ul>
+    </p>
+
+    <p>Following the MREs, I created following <b>workarounds</b> this week to get rid of segmentation faults :- 
+      <ul>
+          <li><a href="https://github.com/czgdp1807/stdlib/commit/012945b39e0ed6b51eae726148204d75b2f09716">Workaround for issue #7603</a></li>
+          <li><a href="https://github.com/czgdp1807/stdlib/commit/f60015b86d526c64bd46b503fc443ba0eb86782c">Workaround for pointer associate issue</a></li>
+          <li><a href="https://github.com/czgdp1807/stdlib/commit/be996b569f76e0a1dbc858ade8b5660220383864">Workaround for issue #7622</a></li>
+      </ul>
+    </p>
+
+    <p>After all these workarounds, test open maps was <b>free from segmentation faults</b>. But then, I encountered some <b>error stop failures</b>. I again continued my process of debugging
+       and was able to create MREs and workarounds for these error stop failures.
+    </p>
+
+    <p>Following is the List of <b>MREs</b> created this week to that were responsible for error stops failures :- 
+      <ul>
+         <li><a href="https://github.com/lfortran/lfortran/issues/7655">Issue #7655</a></li>
+         <li><a href="https://github.com/lfortran/lfortran/issues/7678">Issue #7678</a></li>
+      </ul>
+   </p>
+
+   <p>Following the MREs, I created following <b>workarounds</b> this week to get rid of error stop failures:- 
+     <ul>
+         <li><a href="https://github.com/czgdp1807/stdlib/commit/fe6567c427fd8599a46ab1671f0101c624996856">Workaround for issue #7678</a></li>
+         <li><a href="hhttps://github.com/czgdp1807/stdlib/commit/c67ff4a9a6d2c4d9369d9f59b6aa106b1949ce11">Workaround for issue #7655</a></li>
+     </ul>
+   </p>
+
+   <p>With these, Test Open Maps was now working fine and so, I created a <b>new branch to add all my commits</b> on the top of latest branch of stdlib (<a href="https://github.com/Pranavchiku/stdlib-fortran-lang/commits/n-lf-10">branch link</a>) and used this branch to set up test open maps on ci 
+      to avoid regression. This proved to be a significant step in the code compilation of stdlib hashmaps as all other files that are left to compile follow similar codeflow and so, the further
+      code compilation process would not be that much difficult as we just need to <b>replicate our workarounds</b> in other files.</p>
+
+    <p>After this, I started to work on <b>Test Chaining Maps</b> whose progress can be tracked using the branch <a href="https://github.com/czgdp1807/stdlib/commits/n-lf-hashmaps-4">n-lf-hashmaps-4</a>. Meanwhile, I also, worked on <a href="https://github.com/lfortran/lfortran/issues/7330">Issue #7330</a> as ,I believe, fixing this could
+       <b>simplify our code compilation</b> process to a large extent. I was <b>able to fix it</b> and link to the <b>Merged Pull Requests</b> is <a href="https://github.com/lfortran/lfortran/pull/7685">here</a>.</p>
+
+    <p>For my next week, I am planning to <b>complete the compilation process for hashmaps package</b> of stdlib as I don't think it would take more than a week to compile all other test files seeing their code complexity. Also, If time permits, then I will be <b>fixing issues</b> related to stdlib
+       as our end goal is to <b>compile stdlib using LFortran without any workarounds</b>.
+    </p>
+    
+    <p>Overall, I worked for <b>31 hours</b> this week and enjoyed the work that I did in the fourth week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
