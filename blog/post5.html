@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 5: Test Chaining Maps</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 5: Completion of compilation of Test Chaining Maps</h1>
+    <p>June 20, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the fifth blog of my GSoC'25 journey. A major update of my work in my fifth week is the <b>Completion of compilation of the Test Chaining Maps</b> from the hashmaps package. Now, Test Chaining Maps file is <b>executing correctly</b>, with workarounds, without any compile-time or run-time failures. A pull request
+       was created to <b>set it up on CI</b> to prevent any sort of regression. Link to <b>Pull Request</b> responsible for setting it up on CI is <a href="https://github.com/lfortran/lfortran/pull/7800">here</a>.
+    </p>
+
+    <p>I started the weeks by <b>creating workarounds</b> to continue the compilation of Test Chaining Maps. Most of the workarounds were similar to that from Test Open Maps and hence, repeated. Although the Implementation of 
+        Test Chaining Maps was not exactly same as Test Open Maps and so, some <b>new workarounds had to created</b> and corresponding MREs were made when needed.
+    </p>
+
+    <p>Workarounds created this week can be tracked through latest hashmaps branch <a href="https://github.com/czgdp1807/stdlib/commits/n-lf-hashmaps-4/">n-lf-hashmaps-4</a>.</p>
+
+    <p>Among these workarounds, some were quite <b>tricky to create</b> and so, I needed to go through the <b>current handling of its MRE by LFortran</b> to get the exact cause.
+       Following are the workarounds created this week that required a lot of efforts :- 
+
+       <ul>
+         <li><a href="https://github.com/czgdp1807/stdlib/commit/653bf9e18bbc48fb54011317bf70fc43545e76ec">Workaround to resolve linker issue</a></li>
+         <li><a href="https://github.com/czgdp1807/stdlib/commit/8e7848a5b34d425ccb5faa5c2a3e191dec98f27c">Workaround for Issue #7712</a></li>
+         <li><a href="https://github.com/czgdp1807/stdlib/commit/2aac34de338b6fd1dc548ae7fed8f3da0ffaab33">Workaround for handling previous keys</a></li>
+         <li><a href="https://github.com/czgdp1807/stdlib/commit/31627ee4a729d46cb5bb6ea67becdeb2f2a2dc7c">Workaround for Infinite loop issue</a></li>
+       </ul>
+    </p>
+
+    <p>Also, I <b>worked on two issues</b> in this week to get to know about the <b>exact fault</b> in them which helped me a lot to create workarounds and make progress.
+       Following is the link to issues on which I worked in this week :- 
+       
+       <ul>
+         <li><a href="https://github.com/lfortran/lfortran/issues/7622">Issue #7622</a></li>
+         <li><a href="https://github.com/lfortran/lfortran/issues/7712">Issue #7712</a></li>
+       </ul>
+    </p>
+
+    <p>With all these efforts, I was able to make <b>Test Chaining Maps execute correctly</b> without any errors or failures. I added all my commits to the latest branch and created the pull request to set them up on CI to conclude Test Chaining Maps.
+        After this I started to work on <b>examples of hashmaps package</b> and currently, I am able to execute <b>half of them</b> correctly by making small workarounds. Also, I am adding <b>error stop conditions</b> in the ones that are correctly working.
+    </p>
+
+    <p>I am planning to wrap up <b>Hashmaps Package in next two days</b>. Currently, for hashmaps, we are left with <b>few examples and a Test file</b>. Remaining Test file is a sort of repitition of Test Open Maps and Test Chaining Maps and so, it won't take much efforts.
+       Also, we need to make hashmaps package work with <b>separate compilation</b> but that too won't take much time as currently, we are just facing some code generation errors using separate compilation. So, If things work, then I will be able to wrap up Hashmaps package 
+       in this weekend.
+    </p>
+
+    <p>Then Onwards, I am planning to start my work on the <b>Design of Submodule</b> which is the next major milestone of my GSoC journey. Initially, I will be <b>identifying all the errors in stdlib</b> that are related to Submodule and will <b>create MREs</b>
+       for them. This will give us some concrete information regarding submodule design and make the process smoother.
+    </p>
+    
+    <p>Overall, I worked for <b>33 hours</b> this week and enjoyed the work that I did in the fifth week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
