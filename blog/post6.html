@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 6: Wrap up Hashmaps and Kick Off SubModule Implementation</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 6: Wrap Up Stdlib Hashmaps and Kick Off Submodule Implementation</h1>
+    <p>June 27, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the sixth blog of my GSoC'25 journey. I started the week by working on Stdlib Hashmaps and was able to <b>wrap up Hashmaps package</b> by Sunday evening. Now, <b>all test files</b> of Hashmaps are correctly executing without any errors, obviously, with workarounds. Also, <b>most examples</b> of hashmaps are working well. 
+        Only a few examples are not working where creating workarounds is not possible. Some <b>non-working examples require Submodule Implementation</b> and thus, we can handle them after my work on Submodules. </p>
+
+      <p>Firstly, I worked on examples of Hashmaps. Most of them were working well after creating <b>small-small workarounds</b>. Commit Link representing workarounds related examples of Hashmaps is <a href="https://github.com/czgdp1807/stdlib/commit/b3c768b88f350bece8f82c3a29ca3853c75d4449">workarounds for Hashmap examples</a>.
+         After this, Working examples of Hashmaps were set up on CI to prevent regression. Link to Merged Pull Request for setting working examples on CI can be found <a href="https://github.com/lfortran/lfortran/pull/7834">here</a>.
+         Some examples were not wokring and were diffcult to workaround. Commit link to track such examples is <a href="https://github.com/czgdp1807/stdlib/commit/710a6510eb1e16b6fc690fc9ce4b17fea29911d1">disabled examples</a>. </p>
+
+      <p>After that, I started to work on <b>Test Maps file</b>. It was just a repition of first two test files <b>(Test Open Maps and Test Chaining Maps)</b> which were compiled earlier and so, I didn't face much difficulties while compiling this test file. For the Compilation of Test Maps, only <b>one new MRE</b> was created which is <a href="https://github.com/lfortran/lfortran/issues/7852">Issue #7852</a>. Corresponding 
+         workaround for this MRE is <a href="https://github.com/czgdp1807/stdlib/commit/ab9c3f65638d33f346c85ceacd66a003a4986594">workaround for issue #7852.</a> Workarounds created in favour of Test Maps can be tracked through <a href="https://github.com/czgdp1807/stdlib/commits/n-lf-hashmaps-5">n-lf-hashmaps-5</a>. With these workarounds, Test Map was also executing correctly without any errors or failures. Link
+         to Merged Pull Request to set Test Maps on CI is <a href="https://github.com/lfortran/lfortran/pull/7853">here</a>.</p>
+
+      <p>With these, we wrapped up Hashmaps package of Stdlib. After this, we moved to next phase of our GSoC journey which is <b>Submodules</b>. For the next two days, I investigated all <b>workarounds of stdlib that were related to submodules</b> to find various MREs related to it. From my research, I found that all submodule workarounds of stdlib were directly or indirectly related following two issues :- 
+        <ul>
+          <li><a href="https://github.com/lfortran/lfortran/issues/7270">Issue #7270</a></li>
+          <li><a href="https://github.com/lfortran/lfortran/issues/7871">Issue #7871</a></li>
+        </ul>
+      </p>
+
+      <p>Main reason behind both the issues was that the module interface was <b>not able to link</b> with its corresponding submodule implementation. Meanwhile, while creating MREs for submodule, I created a MRE related to stdlib sorting which is <a href="https://github.com/lfortran/lfortran/issues/7883">Issue #7883</a>. 
+         I thought the workaround was related to submodule but eventually, found the MRE created from workaround was because of some other error. Also, I fixed this MRE in this <a href="https://github.com/lfortran/lfortran/pull/7900">Merged Pull Request</a>. Then, I read a bit about submodules and was able to 
+         deduce following <b>features about submodules</b> :- 
+
+         <ul>
+          <li>Parent module can compile without submodule but using its subroutine or function in interface will cause the error.</li>
+          <li>Submodule should always compile after the compilation of parent module as submodule uses modfile (.mod) of parent module for compilation.</li>
+          <li>Submodule provides implementation to interface subroutines/functions of parent module.</li>
+          <li>Interfaces are not needed in submodules — only implementations are written there</li>
+          <li>Submodules can access all the entities (public/private) of Parent Module.</li>
+          <li>Functions/subroutines present in Submodule can only be used if its present in Module interface.</li>
+         </ul>
+      </p>
+
+      <p>Then, I studied a bit about how currently we are implementing submodules and modules in LFortran and with thorough discussion with <a href="https://github.com/certik">Ondrej Certik</a>, we came to following <b>plan</b> for submodule implementation :- 
+         <ul>
+          <li>1. Use current machinery, add parent module and is_submodule flags to the Module symbol</li>
+          <li>2. Import everything from the parent module in a given submodule</li>
+          <li>3. Populate Function or Subroutine of Parent Module with implementation when encountered in Submodule</li>
+         </ul>
+      </p>
+
+      <p>For the next week, I am planning to work on the above discussed plan. I will use <a href="https://github.com/lfortran/lfortran/issues/7270">Issue #7270</a> as a reference to see if the things are going in the correct direction or not. By the end of next week, I will try to complete at <b>least first two steps</b> of 
+         above discussed plan and will try my best to make as much progress as I can in the third step and eventually in <a href="https://github.com/lfortran/lfortran/issues/7270">Issue #7270</a>.</p>
+    
+    <p>Overall, I worked for <b>32 hours</b> this week and enjoyed the work that I did in the sixth week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
