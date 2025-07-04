@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 7: SubModule Implementation</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 7: Submodule ASR Design and Initial Implementation to link it with Parent Module</h1>
+    <p>July 4, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the seventh blog of my GSoC'25 journey. I started the week by working to <b>create an ASR Design</b> by which we can <b>implement Submodules</b> in LFortran. Of all the features of submodules, I firstly targeted its main 
+       feature which is that a submodule provides <b>Implementation to a module Interface</b>. Rest all features of submodules can be easily accomodated once we are ready with this main feature.
+    </p>
+
+    <p>For the ASR Design of Submodules, we didn't had to create some sort of new Symbol in ASR and planned to use <b>current machinery</b> with some tweaks. In our current implementation, we were representing
+       <b>Submodules using a Module Symbol</b>. So, first thing I did was to add a <b>new Symbol flag</b> in Module ASR. This flag was to used to the <b>track Parent Module</b> of a Submodule. For a normal module, the Parent Module flag would be <b>nullptr</b>.
+       This flag also helped us to <b>distinguish between a Module and Submodule</b> based on whether parent module flag is nullptr or not. Then, I modified all Module generating ASR code with this new Parent Module Flag. 
+    </p>
+
+    <p>Rest of the things like, serialization, deserialization, ASR generation for updated Module ASR was handled by LFortran automatically and didn't take much efforts. Finally, I updated <b>pickle.cpp file</b> with this new Parent Module Flag for Module ASR.
+       With this, my ASR Design step for Submodules was completed. I, then, <b>updated all test references</b> for this new change and <b>added a test</b> for this updated ASR. Link to Merged Pull Request for this ASR Design step for Submodule is <a href="https://github.com/lfortran/lfortran/pull/7927">here</a>.
+    </p>
+
+    <p>Then onwards, I started to work to <b>link Parent Module interface with Submodule Implementation</b>. This was a tricky part. It took a lot of efforts, like I started with an approach, then
+       shift to some other approach due to a flaw in it and similarly, the cycle repeated. Firstly, I tried to <b>directly update Parent Module Function</b> node with Submodule Function node in <b>asr_to_llvm phase</b> but, in this phase, a lot of things need to changed as Parent Module Function node was <b>spreaded all over</b> in <b>SubroutineCall</b>, 
+       <b>FunctionCall</b> etc. and it was <b>physically impossible</b> to update Parent Module Function in all the places.
+    </p>
+
+    <p>So, I changed my plan and tried to update Parent Module Function in <b>ASR generation phase</b>. But it seemed that modifying Parent Module Function node was a bad plan as it led a lot of <b>failures due to incorrect Symbol Table</b> and also, the idea was <b>not efficient</b> when
+       compiling <b>separate files</b> or for <b>Separate Compilation</b>. Links to Pull Requests for these Approaches are :- 
+
+       <ul>
+            <li><a href="https://github.com/lfortran/lfortran/pull/7943">Pull #7943</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/pull/7961">Pull #7961</a></li>
+       </ul> 
+    </p>
+
+    <p>So, finally, I tried to link Parent Module interface to Submodule Implementation using <b>ExternalSymbol</b>. Here, the Idea was to <b>convert Symbol</b> corresponding to Parent Module Function to an
+       <b>ExternalSymbol pointing to Submodule Function</b>. This way, all FunctionCalls and SubroutineCalls to Parent Module, will get <b>directed to Submodule</b> and things would work without any error. I have started to work on this approach and have covered most parts of it.
+    </p>
+
+    <p>In the next week, I am planning to <b>wrap up Submodule Implementation</b> using ExternalSymbol approach and then, I will <b>revert workarounds</b> from stdlib that are related to Submodules. If nothings breaks after reverting these workarounds, then its good or else 
+       I will <b>create MREs</b> for failures and <b>fix them</b> to solidify the Submodule Implementation.
+    </p>
+      
+    
+    <p>Overall, I worked for <b>30 hours</b> this week and enjoyed the work that I did in the seventh week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
