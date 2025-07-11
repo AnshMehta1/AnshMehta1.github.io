@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 8: SubModule Implementation</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 8: Continue the work on Submodule Implementation</h1>
+    <p>July 11, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the eight blog of my GSoC'25 journey. The week started with a lot of hustle and confusion regarding correct approach for Submodule Implementation
+       but it ended on a good note with a <b>clear direction</b> and <b>perfect approach for Submodule Implementation</b>.
+    </p>
+
+    <p>I started this week by <b>rejecting ExternalSymbol approach</b> due to an edge case (<a href="https://github.com/lfortran/lfortran/pull/7961#issuecomment-3036569212">link</a>) where Submodule Implementation was lacking <b>Function Signature, args</b> etc. Here, we could not directly point 
+       Parent Module Function to Submodule Function as its not complete and will not execute properly. So, we decided to move back to our original Approach where we were <b>directly modifying Parent Module Function</b>.</p>
+
+    <p>It took me around 2 days of time to implement this approach. <b>Main Pointers</b> of this approach were :-
+
+        <ul>
+            <li>In Parent Module Functions, firstly, we convert <b>deftype to implementation</b> from interface.</li>
+            <li>Then, we <b>add variables and ExternalSymbols</b>, made in Submodule Function to <b>Symbol Table of parent module Function</b>.</li>
+            <li>We also add variables and ExternalSymbols, of Submodule to <b>Symbol Table of Parent Module</b>.</li>
+            <li>We then <b>populate body of Parent Module function</b> by duplicating statements of Submodule function to <b>update the scopes</b> of involved symbols.</li>
+            <li>Finally, <b>loaded from mod flag of parent module</b> is turned to <b>false</b> to re-save updated Parent Module ASR.</li>
+        </ul>
+    </p>
+
+    <p>Link to Pull Request to implement this approach is <a href="https://github.com/lfortran/lfortran/pull/7961">Pull #7961</a>. This approach was able to implement submodules in a <b>single file and multiple files</b>.
+       But this approach was also a failure as it failed for the case of <b>Separate Compilation</b>. In Separate Compilation, we <b>directly generate object code</b> of the file we are currently compiling and this <b>object code can't be modified</b>
+       later, once generated. Thus, if <b>Module and Submodule are present in separate files</b>, then it will <b>fail</b>. This was a major drawback for this approach which is why we finally rejected this approach.</p>
+
+    <p>After this, I researched a bit to develop a perfect approach for Submodules but was not able to do. With a detailed discussion with <a href="https://github.com/Pranavchiku">Pranav Goswami</a>, we agreed upon a perfect approach where <b>linker</b> would directly
+       <b>link LLVM Functions of module and submodule</b>. So, a LLVM Function would be generated for <b>Module Interface</b> which would be <b>undefined</b> as it lacks the actual implementation. Similary, a LLVM Function would be generated for <b>Submodule Implementation</b> which would be <b>complete with actual implementation</b>.
+       For linker, to link these LLVM Functions, their <b>LLVM function names (indirectly mangling prefixes)</b> should be exactly <b>same</b>. So, we decided to use <b>Parent Module name as Mangling Perfix</b> and update LLVM Function names with these prefix.
+       This thing needs to be done only for Functions or Subroutines where <b>keyword module is used</b> because module keyword means that the Function or Subroutine is either a <b>Module Interface or Submodule Implementation</b>. We don't want affect other Subroutines
+       or Functions with these changes.</p>
+
+    <p>Then onwards, I worked to implement this approach. It was not a difficult task and I was able to implement it quite easily. I also, made changes in <b>Unused Functions pass</b> as a part of this approach so that <b>Submodule Implementations are not removed from ASR</b> before LLVM phase. Link to Merged Pull Request to implement this complete approach 
+       is <a href="https://github.com/lfortran/lfortran/pull/8010">Pull #8010</a>. I also handled <b>class interfaces in Parent Module</b> so that its Submodules Implementation links to it by making a small modification in LLVM phase. To avoid any sort of regression, I added <b>integration tests (regular ones and with Separate Compilaion)</b> to cover all these progress made in 
+       Submodule Implementation. Link to Merged Pull Request for the same is <a href="https://github.com/lfortran/lfortran/pull/8013">Pull #8013</a>.
+    </p>
+
+    <p>With these, our Submodules were executing correctly in a <b>single file and in multiple files but with separate compilation</b>. For <b>multiple files without separate compilation</b>, their was still a <b>problem</b>. In this case, we were <b>not able to generate LLVM Function for Submodule Implementation</b> as in Program, we <b>only import Parent Module</b> which has no links to its Submodule.
+       With a meeting with <a href="https://github.com/certik">Ondrej Certik</a>, we identified multiple approaches to tackle this which are :- 
+
+       <ul>
+        <li>For each module we load, we <b>scan for submodule files</b> and <b>use the parent module name</b> to find those and load those.</li>
+        <li>We <b>store the information for each parent module</b> which submodules it has, either by <b>modifying the parent module file</b> or <b>storing this separately in a file</b> somehow.</li>
+        <li>We directly <b>provide an option for user to provide the submodule file</b> which is to be used when compiling the main program and then, we simply load it.</li>
+       </ul>
+    </p>
+
+    <p>Of the all approaches, we agreed to currently settle on <b>third approach</b>. In the <b>next week</b>, I am planning to work on this approach so that we can <b>implement submodules for separate files without separate compilation</b>. Also, we will need to extend this approach for <b>CMAKE build system</b> maybe by adding a 
+       new <b>compiler option like --add-submodule</b> to provide submodule to be used when compiling the main program through CMAKE. I will <b>also work on this CMAKE thing</b> once I complete my main Implementation for the above discussed third approach in my next week.
+    </p>
+
+    <p>Overall, I worked for <b>29 hours</b> this week and enjoyed the work that I did in the eight week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
