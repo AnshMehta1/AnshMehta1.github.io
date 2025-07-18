@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 9: SubModule Implementation</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 9: Implement Submodules in Separate Files for Monolithic Compilation</h1>
+    <p>July 18, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the ninth blog of my GSoC'25 journey. I dedicated this week to <b>Implement Submodules in separate files for Monolithic Compilation</b> (without Separate Compilation). So, in the <b>previous week</b>, we implemented Submodules in a <b>single file</b> and in <b>multiple files but with</b>
+       <b>separate compilation</b>. But with that implementation, submodules were <b>not working in multiple files without separate compilation</b>. We identified the cause for it and decided to <b>add a compiler option</b> by which we can <b>pass the required submodules</b> to program and can <b>load them</b>.
+    </p>
+
+    <p>So, the first thing I did was to <b>create a Compiler Option named as --add-submodule</b> whose purpose was to <b>pass the name of required Submodules</b>, provided as the <b>command line arguments</b>, to our main program. I also created a <b>vector of strings</b> to <b>collect all these submodule names</b> so that I can <b>use them in future</b> to load these submodules.
+    </p>
+
+    <p>After doing this, I came to next part of the implementation. For that, <b>in ast symbol table visitor</b>, I <b>iterated over the vector</b> containing submodule names, <b>processed them a bit</b> and then used this submodule names to <b>load these submodules</b>. But this created <b>a problem in deserialization</b> as we were <b>not able to read Parent Module Symbol</b> while loading our submodule.
+        Initially, I tried various things to get rid of this like, I tried to <b>deserialize Parent Module</b>. I also tried to <b>modify Parent Module Symbol using ExternalSymbol</b> as we where having some special handling for ExternalSymbols in deserialization. The link to Pull Request for this overall implementation is <a href="https://github.com/lfortran/lfortran/pull/8064">Pull #8064</a>.</p>
+
+    <p>But, none of the approaches was able to resolve this deserialization error. So, I decided to deep-dive into the problem to understand the exact issue. I was able to deduce that whenever we load a module, we <b>create a new Translation Unit</b> and <b>load the module within that Translation Unit</b>. So, when we were
+       trying to read parent module symbol while loading a submodule, we were not able to do so as <b>we weren't having access to parent module symbol</b> as it was loaded into <b>some other translation unit</b>. With a discussion with <a href="https://github.com/certik">Ondrej Certik</a>, we agreed upon an approach to resolve this error. We decided to <b>convert Parent Module flag of Module ASR to string from symbol</b> which would <b>simplify the deserialization process</b>
+       as now, we will not need to deserialize any symbol for parent module.
+    </p>
+
+    <p>The Parent Module flag will now <b>store the name of parent module for submodules</b> and <b>for regular modules, it will be empty string</b>. This will also, help us to <b>distinguish a submodule from regular module</b>. After this, I updated the entire codebase with this change and with this, we were <b>able to load our submodules into program</b>.
+       With the completion of this step, our submodule was getting <b>loaded into global scope</b> and thus, <b>LLVM Functions were generated</b> for our Submodule Functions. Other things were handled by the linker and thus, our Submodules got implemented in Separate Files for Monolithic Compilation. The Link to Pull Request for this complete implementation is <a href="https://github.com/lfortran/lfortran/pull/8081">Pull 8081</a>.
+    </p>
+
+    <p>Currently, the Pull Request is failing some CI checks due to some unknown reasons because same test are working for me on my local system. Also, as submodules were working perfectly with separate compilation, I decided to <b>revert workarounds related to submodules for separate compilation</b> on the top of latest separate compilation branch of stdlib so that we save progress for submodules (with separate compilation) for stdlib. I have started to work on this and have made some progress which 
+        can be tracked through <a href="https://github.com/Pranavchiku/stdlib-fortran-lang/commits/revert-submodules-workarounds-sc-1?before=26b14cb85b9fbbd9e8f12e3996df9b603f287044+35">revert-submodules-workarounds-sc-1</a> branch.
+    </p>
+
+    <p><b>In the next week</b>, my first job will be to <b>complete</b> <a href="https://github.com/lfortran/lfortran/pull/8081">Pull 8081</a> and get it <b>merged</b>. This would not be a diffcult task. Next, I will continue to <b>revert submodule workarounds of stdlib for separate compilation</b> and if something breaks after reverting, then <b>will fix it accordingly</b>. Also, I will save the progress by <b>setting it up on CI</b>. I will also <b>do similar thing for stdlib submodule workarounds with monolithic compilation</b>.
+       This would <b>robustify our work on submodule implementation</b> for every possible compilation technique.</p>
+
+    <p>Overall, I worked for <b>26 hours</b> this week and enjoyed the work that I did in the ninth week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
