@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 10: SubModule Implementation</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 10: Continue the Submodule Implementation for Monolithic Compilation and Implement Module Procedures for Submodules</h1>
+    <p>July 25, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the tenth blog of my GSoC'25 journey. There were two major tasks which I performed during this week. First task was to <b>Implement Submodules in</b> 
+       <b>separate files for Monolithic Compilation</b> without using any additional compiler option. Another task which I performed was to <b>Implement Module Procedures for Submodules</b> by 
+       creating a new ASR Function.
+    </p>
+
+    <p>Starting with the first task, I spent some time looking over stlib src files over various packages so that I can find a way to distinguish a regular module from parent module (module which can have submodules) during compile time.
+       After spending some time, I was able to deduce that any module can be <b>parent module</b> if it has <b>atleast one Function Node</b> having <b>module field</b> in its FunctionType as <b>true</b>.
+       In short, if a module has <b>either a module subroutine or a module function</b>, then that module can be a <b>parent module</b>. I was able to vaildate this fact
+       using <b>GFortran</b> which was additionally, generating a <b>smod file</b> for its <b>future submodules</b> when above condition was getting satisfied. 
+    </p>
+
+    <p>After this, I used this information to create a new flag <b>has submodules</b> in Module ASR. By doing this, we were abe to <b>get rid of compiler option --add-submodules</b> through which we were externally providing submodule names
+       that we wanted to load while compiling our program file. So, now onwards, we were saving modfile for submodules after <b>adding parent module name as prefix</b> to <b>modfile name</b>. This way, we can get all our submodule modfiles
+       correspondig to a parent module just by parent module name.
+    </p>
+
+    <p>So, finally, whenever we encouter a <b>use statement</b> in prgram file, we will <b>load the module</b> correspondig to it. If the loaded module is a <b>parent module (has submodules flag is true)</b>, then, using <b>parent module name</b>, we file <b>find all the submodule files</b>
+       and <b>load the ASR of all the submodules</b> of that parent module in <b>Global Scope</b> while executing program file. This way, we will be able to <b>generate LLVM Functions</b> for all our <b>submodule implementations</b> and thus, our submodules will get
+       implemented for Monolithic Compilation.
+    </p>
+
+    <p>I was able to implement this complete approach and it was working well when we compiled all the files one after another in correct order. But still, the apporach had one problem. In <b>CMAKE</b>, the order of compilation of these files is <b>derived internally based on use statements</b> in prgram file.
+       But our program file doesn't has use statement for submodule and thus, <b>CMAKE was not able compile submodule files</b> before executing program file. This caused an error while loading modfile for submodules in CMAKE. The <b>complete documentation</b> for this <b>issue</b> and its <b>suggested solutions</b> can be found <a href="https://github.com/lfortran/lfortran/issues/536#issuecomment-3113704804">here</a>.
+    </p>
+
+    <p>Now, lets move to our second task. I <b>implemented module procedures for submodules</b> in <b>two phases</b>. Firstly, it was implemented in <b>AST SymbolTable Visitor</b>. Here, a <b>new ASR Function was created</b> with an <b>empty body</b>. <b>Arguments, return var, function signature</b> etc. were taken from <b>module interface</b> present in parent module with some minor changes like <b>scope updation, defType modification (to implementation) and</b>
+       <b>abiType modification (to source)</b>. Then, it was implemented in <b>Ast Body Visitor</b> where <b>body of Function (representing module procedure) was populated</b>. Also, <b>function dependecies</b> for module procedures were <b>updated</b>.
+       This is how, our module procedures were implemented for submodules. Link to Pull Request for the same is <a href="https://github.com/lfortran/lfortran/pull/8126">Pull #8126</a>. 
+    </p>
+
+    <p><b>For the next week</b>, firstly, I am planning to extend my work on module procedures to support <b>module procedures in a module efficiently</b>. Also, will handle <b>Declarations made in module procedures</b> as currently, they aren't working.
+       Also, I will <b>wrap up Submodule Implementation for Monolithic Compilation</b> as soon as possible after a bit of discussion toady. Then onwards, I will work to <b>robustify submodules</b> by <b>reverting stdlib submodules workarounds</b> and <b>fixing things</b> that break.
+       Also, their is one more thing that we will need to handle which is <b>nesting submodules</b>. Will also start my work on it, if the time permits.
+    </p>
+
+    <p>Overall, I worked for <b>24 hours</b> this week and enjoyed the work that I did in the tenth week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
