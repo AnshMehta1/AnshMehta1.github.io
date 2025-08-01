@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 11: Submodule Implementation</title>
+  <style>
+    pre {
+      background: #f4f4f4;
+      padding: 1em;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 11: Completion of Submodule Implementation for Monolithic Compilation and Revert Submodule workarounds from Stdlib in Separate Compilation</h1>
+    <p>August 1, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the eleventh blog of my GSoC'25 journey. A major update from eleventh week is <b>Succesful Completion of Submodules Implementation for Monolithic Compilation</b>.
+       Apart from these, I also worked to <b>support declarations</b> made in <b>Module Procedures</b> and <b>reverting Submodule workarounds</b> from <b>Stdlib in Separate Compilation</b> mode.
+    </p>
+
+    <p>I started the week by extending my previous Merged Pull Request <a href="https://github.com/lfortran/lfortran/pull/8126">Pull #8126</a>, which implemented modules procedures, to add support for declarations made in module procedures. It was not a difficult task as we just needed
+       to <b>iterate over AST Declarations</b> and <b>visit them</b> one by one. Also, I made some small modifications in our previous implementation for module procedure. Link to Merged Pull Reqest for the same is <a href="https://github.com/lfortran/lfortran/pull/8142">Pull #8142</a>.</p>
+
+    <p>Then onwards, I started to continue my work on Submodule Implementation for Monolithic Compilation. The current implementation for it was almost correct and complete. But, still we weren't able to test submodules in monolithic compilation due to <b>CMAKE issue</b>. So, first of all,
+        I created a new label <b>llvm submodule</b> and <b>prepared a script</b> for it which was responsible for executing all the files in <b>correct order</b>, create <b>object files</b> for them and finally, <b>link them</b> all to correctly run the test.
+    </p>
+
+    <h3>CMAKE Script for llvm submodule label</h3>
+
+    <pre><code>
+        set(object_files "")
+        set(prev_file "")
+        foreach(extra_file ${extra_files})
+            get_filename_component(obj_name ${extra_file} NAME_WE)
+            add_library(${obj_name} OBJECT ${extra_file})
+            target_compile_options(${obj_name} PUBLIC $&lt;$&lt;COMPILE_LANGUAGE:Fortran&gt;:${extra_args}&gt;)
+            if (prev_file)
+                add_dependencies(${obj_name} ${prev_file})
+            endif()
+            set(prev_file ${obj_name})
+            list(APPEND object_files $&lt;TARGET_OBJECTS:${obj_name}&gt;)
+        endforeach()
+        add_executable(${name} ${file_name}.f90 ${object_files})
+        target_compile_options(${name} PUBLIC $&lt;$&lt;COMPILE_LANGUAGE:Fortran&gt;:${extra_args}&gt;)
+        add_dependencies(${name} ${prev_file})
+        add_test(${name} ${CURRENT_BINARY_DIR}/${name})</code></pre>
+
+    <p>After this, I <b>registered this as a backend</b> and <b>updated ci</b> to run <b>integration tests for this label</b> in both <b>monolithic and separate compilation modes</b>. With these, our Submodule Implementation for Monolithic Compilation was complete after some refinements. But still, some checks were <b>failing</b> on ci.
+       Failures were due to two reasons :- 
+       <ul>
+            <li>We <b>changed modfile name</b> for submodules by <b>adding parent module name</b> as prefix. But, CMAKE only needs <b>submodule name</b> in its modfile which caused <b>CMAKE error</b>.</li>
+            <li>We were <b>loading submodules</b> whenever we encountered a <b>use statement</b> even if correspondig file <b>doesn't has a program</b>. This caused <b>duplication, serialization and deserialization errors</b> in Stdlib.</li>
+       </ul>
+    </p>
+
+    <p>These failures were handled using following solutions :- 
+        <ul>
+            <li>For the first problem, we created an <b>extra empty modfile</b> using only submodule name for submodules to satisy the CMAKE condition.</li>
+            <li>For second problem, we maintained a <b>boolean variable in_program</b> to track when or codeflow is in <b>Program Scope</b>. Using this, we <b>restricted all our load submodules calls</b> only for <b>Use statement in Program Scope</b>.</li>
+        </ul>
+    </p>
+
+    <p>Using these solutions and some minor refactorings, we were able complete our work on submodule implementation for monolithic compilations. Following are the links
+       to Pull Requests for this complete approach :-
+       <ul>
+            <li><a href="https://github.com/lfortran/lfortran/pull/8184">Pull #8184</a> : For ASR related changes</li>
+            <li><a href="https://github.com/lfortran/lfortran/pull/8159">Pull #8159</a> : For implementing submodules in monolithic compilation</li>
+       </ul>
+    </p>
+
+    <p>Following this, I started to work on reverting submodule workarounds from Stdlib in Separate Compilation mode. I have made decent enough progress in doing so and have reverted almost all the workarounds. Link to
+       the branch for tracking this is <a href="https://github.com/Pranavchiku/stdlib-fortran-lang/commits/sc-lf-revert-submodules-1/">sc-lf-revert-submodules-1</a>.
+    </p>
+    
+    <p>For the <b>next week</b>, I am planning to <b>continue this reverting process</b> also, for <b>monolithic compilation</b> mode. I have also <b>identified some errors</b> while reverting submodule workarounds. Will also <b>create MREs for them and fix them</b> in my next week.
+    </p>
+
+    <p>Overall, I worked for <b>33 hours</b> this week and enjoyed the work that I did in the eleventh week and would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties. I am looking forward to continue my journey in the next week
+      with the same excitement and enthusiasm and plan to complete my proposed tasks as quickly as I can.</p>
+  </section>
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>

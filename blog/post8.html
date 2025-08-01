@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Week 8: SubModule Implementation</title>
+  <title>Week 8: Submodule Implementation</title>
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
@@ -42,7 +42,7 @@
        or Functions with these changes.</p>
 
     <p>Then onwards, I worked to implement this approach. It was not a difficult task and I was able to implement it quite easily. I also, made changes in <b>Unused Functions pass</b> as a part of this approach so that <b>Submodule Implementations are not removed from ASR</b> before LLVM phase. Link to Merged Pull Request to implement this complete approach 
-       is <a href="https://github.com/lfortran/lfortran/pull/8010">Pull #8010</a>. I also handled <b>class interfaces in Parent Module</b> so that its Submodules Implementation links to it by making a small modification in LLVM phase. To avoid any sort of regression, I added <b>integration tests (regular ones and with Separate Compilaion)</b> to cover all these progress made in 
+       is <a href="https://github.com/lfortran/lfortran/pull/8010">Pull #8010</a>. I also handled <b>class interfaces in Parent Module</b> so that its Submodules Implementation links to it by making a small modification in LLVM phase. To avoid any sort of regression, I added <b>integration tests (regular ones and with Separate Compilation)</b> to cover all these progress made in 
        Submodule Implementation. Link to Merged Pull Request for the same is <a href="https://github.com/lfortran/lfortran/pull/8013">Pull #8013</a>.
     </p>
 
