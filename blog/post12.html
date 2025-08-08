@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 12: Conclusion</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Week 12: Conclusion of an Amazing Journey</h1>
+    <p>August 8, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Hi everyone, welcome to the twelfth and the final blog of my GSoC'25 journey. I dedicated this week for <b>reverting Submodule Workarounds from Stdlib in Separate Compilation mode</b>.</p>
+    
+    <p>I had reverted some workarounds related to submodules in my previous week. But the next submodule workaround, I was working on, involved a very high usage of <b>module procedures in submodules</b>.
+       Since module procedures were implemented by me quite recently and so, it had a some <b>mishandlings</b> and <b>lacked many implementation details</b>. So, reverting this submodule workaround
+       will help in robustifying module procedures for submodules.
+    </p>
+
+    <p>The process I followed, to handle errors related to module procedures, was quite simple. I <b>created MREs</b> for the errors which helped me to understand the issue and then, I <b>fixed them</b> one by one.
+       Following is the list of MREs created for errors related to module procedure in submodules :- 
+
+       <ul>
+            <li><a href="https://github.com/lfortran/lfortran/issues/8208">Issue #8208</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/8218">Issue #8218</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/8247">Issue #8247</a></li>
+       </ul>
+    </p>
+
+    <p>All these MREs very quite easy to fix. It basically required some simple handlings. Following is the list of Merged Pull Requests for fixing these issues :- 
+       <ul>
+            <li><a href="https://github.com/lfortran/lfortran/pull/8225">Pull #8225</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/pull/8231">Pull #8231</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/pull/8248">Pull #8248</a></li>
+       </ul>
+    </p>
+
+    <p>With these, I was able to <b>revert</b> the <b>submodule workaround involving module procedures</b>. Then, I <b>reverted remaing workarounds</b> from Stdlib for Separate Compilation mode. Link to latest separate compilation branch for Stdlib with these revert commits is <a href="https://github.com/Pranavchiku/stdlib-fortran-lang/commits/sc-lf-11">sc-lf-11</a>.
+       So, for separate compilation, all submodules workarounds, except for <b>stdlib stats package</b>, are reverted.
+       For Stdlib Stats, we were getting some <b>other failures</b>, unrelated to submodules work, while compiling <b>Parent Module file</b>. Thus, we can hanle this package later on in future once the other errors are fixed or worked around. Then, I <b>updated Separate Compilation branch</b> on CI with these revert commits to <b>prevent any regression</b> in future.
+       The link to Merged Pull Request for setting things on CI is <a href="https://github.com/lfortran/lfortran/pull/8260">Pull #8260</a>.
+    </p>
+
+    <p>These marks the completion of our work on reverting Submodule workarounds from Stdlib in Separate Compilation mode. Then, I shifted my focus to <b>Monolithic compilation</b> mode and started reverting submodule workarounds there.
+       But, here, I was not able make much progress due to <b>time constraints</b>. Still I <b>identified some issues</b> and <b>reported MREs</b> for them. 
+       Following is the list of MREs created for errors related to submodules in monolithic compilation :- 
+       <ul>
+            <li><a href="https://github.com/lfortran/lfortran/issues/8264">Issue #8264</a></li>
+            <li><a href="https://github.com/lfortran/lfortran/issues/8277">Issue #8277</a></li>
+       </ul>
+    </p>
+
+    <p>This concludes my 12 weeks of GSoC Journey. A journey that taught me not just to fix the existing bugs but also to design and implement new features. The journey, though filled with challenges and triumphs, proved to be a valuable learning experience that would help me in my future endeavours.
+       My GSoC weeks are complete but still I will <b>continue to work on submodules</b> especially for <b>monolithic compilation</b> as still there are a lot of things which needs to be handled.
+    </p>
+
+    <p>Overall, I worked for <b>27 hours</b> this week and enjoyed the work that I did in the twelfth week . I would, also, like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties in my complete GSoC Journey. I look forward to contribute further with the same excitement and enthusiasm, and to support LFortran in the best possible way.</p>
+  </section>
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
