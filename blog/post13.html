@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Final Blog</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Final Blog</h1>
+    <p>August 28, 2025</p>
+    <a href="../index.html">← Back to Home</a>
+  </header>
+
+  <section class="content">
+    <p>Student : <a href="https://github.com/AnshMehta1">Ansh Mehta</a> <br>
+       Project : <a href="https://summerofcode.withgoogle.com/programs/2025/projects/uhd1Mpkb">Compiling Stdlib using LFortran</a> <br>
+       Organization : <a href="https://fortran-lang.org/">Fortran-lang</a> <br>
+       Mentors : <a href="https://github.com/certik">Ondřej Čertík</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a> <br>
+       Weekly Blogs : <a href="https://anshmehta1.github.io/index.html">anshmehta1.github.io</a></p>
+
+    <h2>Overview of Work Done :- </h2>
+    <p>In my GSoC Journey, I worked on enhancing compatibility of LFortran with the Stdlib Fortran codebase. I started my GSoC journey by working on <b>HashMaps package</b> of Stdlib. It was the second biggest
+       package, after stats, in terms of lines of code, complexity and current failures/errors in LFortran. It took me around <b>5.5 weeks</b> of GSoC Period to successfully compile all its files and execute all its 
+       tests and most examples successfully with workarounds. I also, updated the CI with all the progress to avoid future regression, but all these updation were eventually turned off due to struct refactoring.
+       After this, I shifted my focus towards <b>Submodule Implementation</b> and worked on it for my remaining GSoC Period. LFortran was initally treating Submodules as a regular Module and didn't supported any Implementation details.
+       After detailed investigation on Submodule features and various compilation modes where submodules are to be supported, I designed a correct maintable approach and started working on it.
+       I was able to implement Submodules in <b>Single file</b> and in <b>Separate files</b> with <b>Monolithic Compilation</b> and <b>Separate Compilation</b>. I also, implemented <b>Module Procedures</b> for Submodules. Finally, I worked to
+       robustify this Submodule Implementation by <b>Module Procedures</b> from Stdlib Codebase. Still, work on Submodules in Monolithic Compilation is going on as there are manny bugs which are yet to be handled.  
+    </p>
+    <h2>Detailed Description :- </h2>
+    <p>Following is the weekly break down of my work in the complete GSoC Period :- 
+        <ul>
+            <li><b>Week 1, 2, 3 and 4</b> : In this period, I concentrated on <b>Test Open Maps</b> of Hashmaps package of Stdlib and was able to successfully compile the test file and execute
+                it correctly.
+            </li>
+            <li><b>Week 5</b> : I dedicated this week for <b>Test Chaining Maps</b> of Hashmaps package of Stdlib and was able to compile and execute the test file correctly.</li>
+            <li><b>Week 6</b> : I devoted this week for <b>wrapping up HashMaps package</b> of Stdlib which includes successful compilation of <b>Test Maps</b> and most <b>examples</b> of HashMaps. Also, during this week, I started to work on <b>Submodules</b>, identifying its key requirements.</li>
+            <li><b>Week 7</b> : In this week, I started implementing submodules, starting with some <b>initial modifications</b> in <b>Module ASR</b> and some <b>initial Implementations</b>.</li>
+            <li><b>Week 8</b> : This was the week where I implemented <b>Submodules in Single File</b> and also, in <b>Separate Files</b> but with <b>Separate Compilation</b>. Still, Submodules were left to be implemented in Separate files 
+                with Monolithic Compilation.
+            </li>
+            <li><b>Week 9, 10 and 11</b> : In these three weeks, I finally completed Submodule Implementation in <b>Separate Files</b> for <b>Monolithic Compilation</b>. During this period, I also implemented <b>Module Procedures</b> for Submodules and finally,
+                robustified Submodule Implementation for Separate Compilation by <b>reverting Submodule Workarounds</b> and fixing corresponding bugs.
+            </li>
+            <li><b>Week 12</b> : Completed the work of <b>reverting Submodule Workarounds</b> for <b>Separate Compilation</b> from Stdlib and <b>Updated the CI</b> after reverting these commits to prevent future regression. Also, made significant progress in robustifying
+                Submodule Implementation for <b>Monolithic Compilation</b>.
+            </li>
+        </ul>
+    </p>
+
+    <p>List of Issues created/closed : <a href="https://github.com/lfortran/lfortran/issues?q=is%3Aissue%20author%3AAnshMehta1">lfortran/issues</a> <br>
+       List of PRs opened / merged / closed : <a href="https://github.com/lfortran/lfortran/pulls?q=is%3Apr+author%3AAnshMehta1">lfortran/pulls</a></p>
+    
+    <h2>My commits during GSoC:</h2>
+    <img src="../commits.png">
+
+    <h2>Current Status :- </h2>
+    <p>Currently <b>most packages</b> of Stdlib are <b>executing correctly</b> are being <b>tested on CI</b> for both <b>Monolithic and Separate Compilations</b> with workarounds. Some packages have been disabled from CI quite recently like HashMaps and Sorting due to some errors which were generated after the two major
+       refactorings (Struct, String). Also, in some packages, small-small details like a few tests or examples are still not working and are yet to be handled. In a nutshell, Stdlib is in quite a good shape after all the collective efforts. 
+    </p>
+    <p>For the case of Submodules, its Implementation is quite <b>robust for Single File and Separate Files with Separate Compilation</b>. Almost all the Submodule workarounds are
+       reverted from Stdlib in Separate Compilation mode and related bugs have been fixed. All the progress is preserved at CI whenever we fix a bug for any compilation mode.
+       Still, Submodule Implementation in <b>Separate Files for Monolithic Compilation</b> is not yet complete. There are still a lot of errors which I will be working on and fixing them with time. 
+    </p>
+
+    <h2>Future Works :- </h2>
+    <p>After the completion of 12 weeks of GSoC period, my primary aim is to <b>robustify Submodule Implementation for Monolithic Compilation</b>. I am currently working on it by reverting Submodule workarounds from Stdlib, creating MREs for generated errors/failures and fixing
+       them one-by-one. I don't think it will a lot of time and I will be able to complete this quite shortly. After this, I am planning to <b>extend my work</b> on <b>Stdlib</b> by <b>compiling remaining packages</b> or <b>fixing bugs</b>, related to stdlib, that are currently open 
+       on LFortran github repository.
+    </p>
+
+    <h2>Learnings :- </h2>
+    <p>I learnt a lot of new things throughout the journey :-
+       
+      <ul>
+        <li>Earlier, I was only fixing bugs related to features which were already created. I didn't created any new feature or design. It was the GSoC period
+            where I learnt to <b>create new features</b>, <b>its designs</b> and things to keep in mind to <b>make the design robust</b> for <b>all compilation modes</b> and <b>maintable</b>. I was able to do so by working on Submodules in my GSoC period.
+        </li>
+        <li>I was the only person working on compilation of HashMaps package of stdlib. This made me <b>responsible</b> and <b>answerable</b> for all the work that I did and hence 
+            helped me to <b>gain immense confidence</b> for my future endeavours.
+        </li>
+        <li>Also, the project helped me to <b>improve my debugging skills</b>. This would help me in any other programming projects that I may perform in my near future.</li>
+        <li>I also pursued another internship simultaneously, hence <b>time management</b> was another very important skill that I learnt here.</li>
+      </ul>
+    </p>
+
+    <h2>Acknowledgments</h2>
+    <p>Overall, I enjoyed the work that I did in my 12 weeks GSoC Period. I would like to thank <a href="https://github.com/certik">Ondrej Certik</a>, <a href="https://github.com/HarshitaKalani">Harshita Kalani</a>, <a href="https://github.com/Pranavchiku">Pranav Goswami</a> and all the other 
+      LFortran members for their reviews and suggestions which helped me a lot to tackle new difficulties in my complete GSoC Journey. I look forward to contribute further with the same excitement and enthusiasm, and to support LFortran in the best possible way.</p>
+  </section>
+  <footer>
+    <p>&copy; 2025 My Blog</p>
+  </footer>
+</body>
+</html>
